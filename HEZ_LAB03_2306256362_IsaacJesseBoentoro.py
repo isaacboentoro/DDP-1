@@ -32,8 +32,6 @@ for char in hex_input_stripped:
 
 print(f"The decimal representation of {hex_input} is {decimal_value}\n")
 
-input("Thanks for using this program\nPress Enter to continue ...")
-
 # Find hex_chars in the string input by user, then get its index
 
 print(f"The decimal representation of {hex_input} is {decimal_value}\n")  # Print final answer d
