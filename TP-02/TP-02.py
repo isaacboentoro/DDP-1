@@ -21,7 +21,14 @@ for result in files:
         data = f.readline().strip("<>")
         attributes = data.split(" ")
         attributes = [attribute.split("=") for attribute in attributes]
-        for attr in attributes:
-            if len(attr) > 1:
-                print(f"{attr[0]}: {attr[1]}")
+        print(f"{result} ", end="")  # print the file name on the same line
+        for attr_name in ["provinsi", "klasifikasi", "sub_klasifikasi", "lembaga_peradilan"]:
+            for attr in attributes:
+                if attr[0] == attr_name:
+                    print(f"{attr[0]}: {attr[1].strip('\"')}", end=" ")
+                    break
+        print()  # add a newline after each file's attributes are printed
+
 print(f"Found {strings_found} files (searched for '{search}' in {end - st} seconds)")
+
+
