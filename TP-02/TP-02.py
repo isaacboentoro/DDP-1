@@ -3,14 +3,26 @@ import sys
 import time
 
 directory = r"C:\Users\isaac\Documents\indo-law-main\dataset"
-search = sys.argv[1]  # Provide system argument for search keyword
+tag = sys.argv[1]  # Provide system argument for tag to search in
+search = sys.argv[2]  # Provide system argument for search keyword
 st = time.time()  # Start logging program runtime
 files = []  # Initialize list to store results
+stringsFound = 0
 for file in os.listdir(directory):
+    tag_found = False
     current_path = os.path.join(directory, file)  # Set current path to open file
     with open(current_path, 'r', encoding='utf-8') as f:  # Read file
-        if search in f.read():  # Search for string in currently opened file
-            files.append(file)  # Append file to results list only when string is found
+        for line in f:
+            if tag_found and line[0:2] != "</":
+                if search in line:  # Search for string in currently opened file
+                    files.append(file)  # Append file to results list only when string is found
+                    stringsFound += 1
+                    break
+            elif tag_found:
+                break
+            if line[0] == "<" and tag in line:
+                tag_found = True
+                continue
 
 for result in files:
     with open(os.path.join(directory, result), 'r', encoding='utf-8') as f:
@@ -24,11 +36,10 @@ for result in files:
                     attr_value = attr[1].strip('\"')
                     if len(attr_value) > 14:
                         attr_value = attr_value[:14] + "..."
-                    print(f"{attr_value}", end=" ")
+                    print(f"{attr_value.rjust(20)}", end=" ")
                     break
         print()  # add a newline after each file's attributes are printed
 
 end = time.time()  # End logging program runtime
-print(
-    f"Found {len(files)} files (searched for '{search}' in {(end - st)} seconds)")
+print(f"Found {len(files)} files (searched for '{search}' in tag {tag} in {(end - st)} seconds)")
 # Print out final message with  runtime
