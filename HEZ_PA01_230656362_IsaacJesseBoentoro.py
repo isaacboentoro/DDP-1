@@ -103,6 +103,8 @@ for towers in range(num_towers):
     turtle.end_fill()
     turtle.penup()
     turtle.goto(initial_pos + (tower_distance * brick_width * tower_width, 0))
+    print(f"Tower {tower_index} has {brickCount} bricks")
+    brickCount = 0
     # go to the right by distance * brick * width distance to the right to begin the next tower
 turtle.goto(-700, -200)
 turtle.write(f"{tower_index} Towers created with a total of {brickCount} bricks", font=("Arial", 25, "normal"))
