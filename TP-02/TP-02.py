@@ -18,9 +18,12 @@ for file in os.listdir(directory):
                     files.append(file)  # Append file to results list only when string is found
                     stringsFound += 1
                     break
-            elif tag_found:
-                break
-            if line[0] == "<" and tag in line:
+            elif tag_found or tag == 'all':  # Check if tag is 'all'
+                if search in line:  # Search for string in currently opened file
+                    files.append(file)  # Append file to results list only when string is found
+                    stringsFound += 1
+                    break
+            if line[0] == "<" and (tag == 'all' or tag in line):  # Check if tag is 'all'
                 tag_found = True
                 continue
 
@@ -33,13 +36,9 @@ for result in files:
         for attr_name in ["provinsi", "klasifikasi", "sub_klasifikasi", "lembaga_peradilan"]:
             for attr in attributes:
                 if attr[0] == attr_name:
-                    attr_value = attr[1].strip('\"')
-                    if len(attr_value) > 14:
-                        attr_value = attr_value[:14] + "..."
-                    print(f"{attr_value.rjust(20)}", end=" ")
+                    print(f"{attr[0]}: {attr[1]}", end=" ")
                     break
         print()  # add a newline after each file's attributes are printed
 
-end = time.time()  # End logging program runtime
-print(f"Found {len(files)} files (searched for '{search}' in tag {tag} in {(end - st)} seconds)")
-# Print out final message with  runtime
+end = time.time()
+print(f"Found {stringsFound} files (searched for '{search}' in {end - st} seconds)")
