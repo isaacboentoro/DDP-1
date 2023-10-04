@@ -14,41 +14,51 @@ if len(sys.argv) == 3:
         current_path = os.path.join(directory, file)  # Set current path to open file
         with open(current_path, 'r', encoding='utf-8') as f:  # Read file
             for line in f:
-                if tag_found and line[0:2] != "</":
-                    if search in f.read():  # Search for string in currently opened file
+                if tag_found and line[0:2] != "</" or tag == "all":
+                    if search in line:  # Search for string in currently opened file
                         files.append(file)  # Append file to results list only when string is found
                         stringsFound += 1
                         break
-                elif tag_found or tag == 'all':  # Check if tag is 'all'
-                    if search in f.read():  # Search for string in currently opened file
+                elif tag_found:
+                    if search in line:  # Search for string in currently opened file
                         files.append(file)  # Append file to results list only when string is found
                         stringsFound += 1
                         break
-                if line[0] == "<" and (tag == 'all' or tag in line):  # Check if tag is 'all'
+                if line[0] == "<" :  # Check if tag is 'all'
                     tag_found = True
                     continue
+
 elif len(sys.argv) == 5:
     operator = sys.argv[3].upper()
     search2 = sys.argv[4]
     for file in os.listdir(directory):
         tag_found = False
+        search_found = False
+        search2_found = False
         current_path = os.path.join(directory, file)  # Set current path to open file
         with open(current_path, 'r', encoding='utf-8') as f:  # Read file
             for line in f:
-                if tag_found and line[0:2] != "</":
-                    if operator == "AND":
-                        if search and search2 in line:  # Search for string in currently opened file
-                            files.append(file)  # Append file to results list only when string is found
-                            stringsFound += 1
-                            break
-                elif tag_found or tag == 'all':  # Check if tag is 'all'
+                if (tag_found and line[0:2] != "</") or (tag == 'all'):
                     if search in line:  # Search for string in currently opened file
-                        files.append(file)  # Append file to results list only when string is found
-                        stringsFound += 1
+                        search_found = True
+                    if search2 in line:
+                        search2_found = True
+                    if search_found and search2_found:
                         break
-                if line[0] == "<" and (tag == 'all' or tag in line):  # Check if tag is 'all'
+                elif tag_found:  # Check if tag is 'all'
+                    break
+                if line[0] == "<" and tag in line:  # Check if tag is 'all'
                     tag_found = True
                     continue
+            if operator == "AND" and (search_found and search2_found):
+                files.append(file)
+                stringsFound += 1
+            elif operator == "OR" and (search_found or search2_found):
+                files.append(file)
+                stringsFound += 1
+            elif operator == "ANDNOT" and (search_found and not search2_found):
+                files.append(file)
+                stringsFound += 1
 for result in files:
     with open(os.path.join(directory, result), 'r', encoding='utf-8') as f:
         data = f.readline().strip("<>")
@@ -63,8 +73,8 @@ for result in files:
                     break
         print()  # add a newline after each file's attributes are printed
 
-end = time.time()
 if len(sys.argv) == 3:
-    print(f"Found {stringsFound} files (searched for '{search}' in {end - st} seconds)")
+    print(f"Found {stringsFound} files (searched for '{search}' in {time.time() - st:.2f} seconds)")
 elif len(sys.argv) == 5:
-    print(f"Found {stringsFound} files (searched for '{search}' {operator} '{search2}' in {end - st} seconds)")
+    print(
+        f"Found {stringsFound} files (searched for '{search}' {operator} '{search2}' in {time.time() - st:.2f} seconds)")
