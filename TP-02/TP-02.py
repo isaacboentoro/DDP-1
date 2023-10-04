@@ -5,6 +5,8 @@ import time
 directory = r"C:\Users\isaac\Documents\indo-law-main\dataset"
 tag = sys.argv[1]  # Provide system argument for tag to search in
 search = sys.argv[2]  # Provide system argument for search keyword
+operator = ""  # Arbitrary initialization
+search2 = ""
 st = time.time()  # Start logging program runtime
 files = []  # Initialize list to store results
 stringsFound = 0
@@ -24,12 +26,15 @@ if len(sys.argv) == 3:
                         files.append(file)  # Append file to results list only when string is found
                         stringsFound += 1
                         break
-                if line[0] == "<" :  # Check if tag is 'all'
+                if line[0] == "<":  # Check if tag is 'all'
                     tag_found = True
                     continue
 
 elif len(sys.argv) == 5:
     operator = sys.argv[3].upper()
+    if operator not in ["AND", "OR", "ANDNOT"]:
+        print("Please provide a valid operator (AND, OR, ANDNOT)")
+        sys.exit()
     search2 = sys.argv[4]
     for file in os.listdir(directory):
         tag_found = False
