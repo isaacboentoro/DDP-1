@@ -55,14 +55,10 @@ elif len(sys.argv) == 5:
                 if line[0] == "<" and tag in line:  # Check if tag is 'all'
                     tag_found = True
                     continue
-            if operator == "AND" and (search_found and search2_found):
-                files.append(file)
-                stringsFound += 1
-            elif operator == "OR" and (search_found or search2_found):
-                files.append(file)
-                stringsFound += 1
-            elif operator == "ANDNOT" and (search_found and not search2_found):
-                files.append(file)
+            if (search_found and (
+                    (operator == "AND" and search2_found) or (operator == "ANDNOT" and not search2_found)) or (
+                    operator == "OR" and (search_found or search2_found))):
+                files.append(file)  # Append file to results list only when string is found
                 stringsFound += 1
 for result in files:
     with open(os.path.join(directory, result), 'r', encoding='utf-8') as f:
