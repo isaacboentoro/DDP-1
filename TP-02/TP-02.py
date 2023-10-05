@@ -67,12 +67,13 @@ for result in files:  # Read through files and return attributes
         attributes = data.split(" ")  # Split attributes into list with double quotes as separator
         attributes = [attribute.split("=") for attribute in attributes]  # List comprehension to split attributes
         # into key-value pairs
-        print(f"\033[92m{result}\033[0m ", end="")  # print the file name on the same line
+        print(f"\033[1m\033[32m{result}\033[0m ", end="")  # print the file name on the same line
         for attr_name in ["provinsi", "klasifikasi", "sub_klasifikasi", "lembaga_peradilan"]:  # Define wanted variables
             for attr in attributes:  # Iterate through found attributes
                 if attr[0] == attr_name:  # Check if attribute is wanted
                     attr[1] = attr[1].strip("\"")  # Remove double quotes from attribute value
-                    print(f"\033[94m{attr[1][:15].rjust(20)}\033[0m", end=" ")  # Print attribute value
+                    color_code = "\033[94m" if attr_name == "provinsi" else "\033[36m"  # Set color code for attribute
+                    print(f"{color_code}{attr[1][:15].rjust(20)}\033[0m", end=" ")  # Print attribute value
                     break
         print()  # add a newline after each file's attributes are printed
 
