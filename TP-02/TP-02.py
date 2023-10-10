@@ -1,8 +1,12 @@
+# Collaborators: Athahzara Nabila Ruby NPM: 2306173113
 import os
 import sys
 import time
 
 directory = r"C:\Users\isaac\Documents\indo-law-main\dataset"  # Set directory to open files from
+if len(sys.argv) < 3 or len(sys.argv) == 4:
+    print("Usage: python TP-02.py <tag> <search> [operator] [search2]")
+    sys.exit()
 tag = sys.argv[1]  # Provide system argument for tag to search in
 search = sys.argv[2]  # Provide system argument for search keyword
 operator = ""  # Arbitrary initialization
