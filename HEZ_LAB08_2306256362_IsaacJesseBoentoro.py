@@ -8,7 +8,7 @@ class Scribble(object):
         self.oldx, self.oldy = 0, 0
         self.color = '#8000FF'
         self.brush_size = 5  # Default brush size
-        self.canvas = Canvas(master, width=800, height=500)
+        self.canvas = Canvas(master, width=1200, height=1200)
         self.canvas.bind("<Button-1>", self.begin)
         self.canvas.bind("<Button1-Motion>", self.draw)
         self.canvas.pack(expand=True, fill=BOTH)
