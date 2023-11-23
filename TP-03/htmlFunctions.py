@@ -86,12 +86,16 @@ def count_words(file):
     word_frequency = dict(itertools.islice(word_frequency.items(), 60))
     return word_frequency
 
-j
 def main():
     filename = input("Please enter the filename:")
     word_frequency = count_words(filename)
+    for i, (word, count) in enumerate(word_frequency.items(), 1):
+        print(f"{count}:{word}".ljust(20), end="\t")
+        if i % 3 == 0:
+            print()
     # Call count_words and return the dictionary to word_frequency
     word_frequency = dict(sorted(word_frequency.items(), key = lambda x: x[0].lower()))
+
     # Sort the list in place alphabetically
     pairs = list(word_frequency.items())
     high_count = max(word_frequency.values())
