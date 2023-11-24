@@ -90,7 +90,7 @@ def main():
     filename = input("Please enter the filename:")
     word_frequency = count_words(filename)
     for i, (word, count) in enumerate(word_frequency.items(), 1):
-        print(f"{count}:{word}".ljust(20), end="\t")
+        print(f"{count}:{word}".ljust(20), end="")
         if i % 3 == 0:
             print()
     # Call count_words and return the dictionary to word_frequency
