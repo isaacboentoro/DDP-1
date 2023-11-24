@@ -68,27 +68,45 @@ def print_HTML_file(body,title):
     fd.write(the_str)
     fd.close()
 
+# Define a function to count words in a file
 def count_words(file):
+    # Open stopwords file and the selected file
     with open("stopwords.txt",  'r') as s, open(file, 'r') as f:
+        # Read and split stopwords into a list
         stopwords = s.read().lower().split()
+        # Read the selected file and convert to lower case
         text  = f.read().lower()
+        # Remove punctuation from the text
         text = text.translate(str.maketrans('', '', string.punctuation))
+        # Split the text into words
         words = text.split()
 
+    # Initialize an empty dictionary to hold word frequencies
     word_frequency = {}
+    # Loop through the words
     for word in words:
+        # If the word is not a stopword
         if word not in stopwords:
+            # If the word is already in the dictionary, increment its count
             if word in word_frequency:
                 word_frequency[word] += 1
+            # If the word is not in the dictionary, add it with a count of 1
             else:
                 word_frequency[word] = 1
+    # Sort the dictionary by word frequency in descending order
     word_frequency = dict(sorted(word_frequency.items(), key=lambda item: item[1], reverse=True))
+    # Limit the dictionary to the top 60 words
     word_frequency = dict(itertools.islice(word_frequency.items(), 60))
+    # Return the word frequency dictionary
     return word_frequency
 
+# Define the main function
 def main():
+    # Ask the user for a filename
     filename = input("Please enter the filename:")
+    # Call the count_words function and store the result
     word_frequency = count_words(filename)
+    # Loop through the word frequency dictionary and print each word and its count
     for i, (word, count) in enumerate(word_frequency.items(), 1):
         print(f"{count}:{word}".ljust(20), end="")
         if i % 3 == 0:
