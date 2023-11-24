@@ -107,6 +107,7 @@ def main():
     # Call the count_words function and store the result
     word_frequency = count_words(filename)
     # Loop through the word frequency dictionary and print each word and its count
+    print(f"{len(word_frequency)} words in frequency order as (count:word) pairs")
     for i, (word, count) in enumerate(word_frequency.items(), 1):
         print(f"{count}:{word}".ljust(20), end="")
         if i % 3 == 0:
