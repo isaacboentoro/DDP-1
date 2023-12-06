@@ -34,7 +34,7 @@ turtle.goto(-700, -455)
 turtle.speed('fastest')
 turtle.Screen().bgpic('supermario.gif')  # set background image
 turtle.Screen().screensize(10000, 5000)
-turtle.Screen().tracer(0)  # Code for instantaneous output
+  # Code for instantaneous output
 brickCount = 0
 
 mushroom_colors = ['red', "green", "blue", "orange", "purple"]  # List to iterate through mushroom 'hat' colors

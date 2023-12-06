@@ -2,3 +2,5 @@
 /.idea/
 /__pycache__/
 /TP-02/dataset/
+TP-04/__pycache__/
+TP-04/.pytest_cache/
